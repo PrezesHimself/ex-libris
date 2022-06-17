@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "akcja-inwentaryzacja",
+  "private_key_id": "454abdba1d0567c2b05dd911109a81ed0fee8992",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDoWercbM2tVdks\nNCXLCoIEXeFHvbVrDOXjLTEUyjpc27zbX6dK+FkQVuNGMype0r2KaCGkYU0rvL9d\n6oEo9G0O+oCNHRyU7Tmur589vdt774unk6WKnpp8I0MT3mWbCtA7pQK8tpl7+10m\nOmhNwPX3loaHYzsHKyneKdWDDmd9lpoL678yYb5MsP4knLwmDjsklMX+j5OEgAhp\n2n3L0T57gaoe51Ffjin/+DEIAsAhQnicFNjLPnqrewLGaj8gw1sNM65GkfkQHEeu\nqcQHk7wiH5Pwz/KvVQ40d+ouMMos6BdA+4Uhk9RnoPR8JTv1lcQUsZ1mI/e54SOx\nlQtBexRdAgMBAAECggEAAoOVwA/PULMcMYqMGolneCIGtRUcGIEgHz6jogMNvmgR\nDMCZGbCpNta+oi/qIyXqYuWwieV7OJNtij5M0Nzs+lucg3cpEk8LL9T6085KyMMC\nD4Y2vtK4S8qOSCTaYMlgdzZYWryRDMXeyQvNvOjVehNsKwMLjI7Os6nGA4mzqSiw\nN22zIAlruR16z8MCa5jCMp3m5GJACdB5kBodSjQBHvjWQLlDWiyhr539w4vTGRtP\nbtsX+v1teD11j0rf1wk3C+kCdhnaVJ8QtHYGoAXXZyteG/OL0JURzAtTN1IOyOXK\nPq7+5uUj212PaSmboGB5v6NftFBoI5414Kl7W1tUUQKBgQD6bHlpDM4FiusF/TfE\nHka/dN9drY/pSrI342YnDE54ardYClXH2/FXjFXZ1zbDCrD90R/1GXw5/YfWjDt4\n6Yrb8yoWD+fZRJ3vjRbRU3R5PbYxz8ESrKKHHLMC/O1KcG24ULr9+COi5dGMvtGS\nIqN+cItYF6YG4k1q+PNtvlvRpQKBgQDthmwJDj0OFt1tEtg/1dJQ15DCuKHvlzs/\njCqxid19VBBQShon/SNaUolmoPhg07REiyeQTe7/ayaLzpYM+No9fr34kPNma3/j\nHWADVD89Ci9f/gTjEaY5bqivgawoNGsVlqsIzs6Lpuq+O2N65ZMGh57omcwCquad\nE7II8CfKWQKBgE35NJyHBicnqCJHQ/Pm0XSPuXT7s9GaFn/caFREOrK317qsDSWb\n0DvIUHrxzfVRAOcnFGJGuy17Sa5+H454eWoe/r272h8GhH6wWah36c5Obsp3u9BK\nvJiBUSPfCSuicidvy6mEd+Qi1uqSB8MO0gVumZSmWGXQVPa36WQEX6aZAoGAf+0z\nCJmLlqgH7/QDVjYyROolBErupJzeAzbZ067+BL8e3i9a8QisXrwvVoAB5hx/bZ9I\n2raurxAlvYyxUiFBYXd+l35yKUpioY6zpHdea+CtbVThiu55iVspLQV5FFpPBlyU\nl3TS13I54eUYihtVWWH32yziLNmgxR7Td27o71kCgYEAmxqZsPDdQuUR2Jsi44v2\nZe7yHzjB1UesdmTWbDKIjlPKn+NdiXNsKv2hlr1d3IlE3nECP39PKdN2lZ/Mjiem\nZ8DZYUWnl5N0IHU86+xgd2cWVbMtcyyMTaPsRyfb+eA+vNitcFNU8mANu84mTJkt\nUzcYO6fJqSFGrCOcFNmIAwM=\n-----END PRIVATE KEY-----\n",
+  "client_email": "mateusz@akcja-inwentaryzacja.iam.gserviceaccount.com",
+  "client_id": "113329068850138176749",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/mateusz%40akcja-inwentaryzacja.iam.gserviceaccount.com"
+}
