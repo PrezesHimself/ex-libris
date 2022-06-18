@@ -8,9 +8,8 @@
   },
   "scripts": {
     "dev": "nodemon --inspect src/index.js",
-    "start": "node src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "postdeploy": "echo \"$SERVICE_KEY\" >> $GOOGLE_APPLICATION_CREDENTIALS"
+    "start": "echo \"$SERVICE_KEY\" >> $GOOGLE_APPLICATION_CREDENTIALS && node src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
