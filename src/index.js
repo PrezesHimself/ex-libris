@@ -1,16 +1,16 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
-const bodyParser = require('body-parser')
-const router = express.Router();
 const api = require('./api');
+const path = require('path');
 const port = process.env.PORT || 3001;
+require('./db/index');
 
-// respond with "hello world" when a GET request is made to the homepage
+app.use(express.static(path.join(__dirname, 'webapp', 'public')));
 app.get('/', (req, res) => {
-    res.sendFile('webapp/public/index.html', {root: __dirname })
+  res.sendFile('webapp/public/index.html', { root: __dirname });
 });
 
 app.use('/api', api);
-
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

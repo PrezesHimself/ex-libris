@@ -11,11 +11,16 @@ const { Storage } = require('@google-cloud/storage');
 const storage = new Storage();
 
 const uploadFile = async (filePath) => {
-  await storage.bucket(bucketName).upload(filePath, {
-    destination: filePath.split('/')[filePath.split('/').length - 1],
+  const result = await storage.bucket(bucketName).upload(filePath, {
+    destination: filePath.split('/').at(-1),
   });
 
   console.log(`${filePath} uploaded to ${bucketName}`);
+  return {
+    filePath,
+    bucketName,
+    storage: result[1],
+  };
 };
 
 const createBucket = async () => {

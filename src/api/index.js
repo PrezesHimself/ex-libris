@@ -3,6 +3,11 @@ const router = express.Router();
 const fileUpload = require('express-fileupload');
 const { readText } = require('../utils/readText');
 const { uploadFile } = require('../utils/upload');
+const { client } = require('../db/index');
+
+const getBooksCollection = () => {
+  return client.db('ex-libris').collection('books');
+};
 
 router.use(fileUpload());
 // middleware that is specific to this router
@@ -15,14 +20,19 @@ router.post('/upload', async (req, res) => {
   const photo = req.files.photo;
   const uploadPath = __dirname + '/upload/' + photo.name;
   await photo.mv(uploadPath);
-
-  await uploadFile(uploadPath);
+  const storage = await uploadFile(uploadPath);
   const result = await readText(uploadPath);
+
+  await getBooksCollection().insertOne({
+    ocr: result,
+    ...storage,
+  });
   res.send(result);
 });
 
-router.get('/about', (req, res) => {
-  res.send('About api');
+router.get('/books', async (req, res) => {
+  const books = await getBooksCollection().find({}).toArray();
+  res.send(books);
 });
 
 module.exports = router;
