@@ -12,7 +12,10 @@ const client = new MongoClient(uri, {
   serverApi: ServerApiVersion.v1,
 });
 
-client.connect();
+client
+  .connect()
+  .then(() => console.log('connected to mongodb..'))
+  .catch((err) => console.error('could not connect to mongodb', err));
 
 module.exports = {
   client,
