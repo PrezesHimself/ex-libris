@@ -1,9 +1,11 @@
-import logo from './logo.svg';
 import './App.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Routes, Route, Link } from 'react-router-dom';
+import Book from './Book/Book';
+import { NavLink } from 'react-router-dom';
 
-function App() {
+function Home() {
   const [books, setBooks] = useState([]);
   const [search, setSearch] = useState('');
 
@@ -15,32 +17,31 @@ function App() {
     }
     fetchData();
   }, []);
-
   return (
-    <div className="App">
-      <header className="App-header">
-        <form action="/api/upload" method="post" enctype="multipart/form-data">
-          <input type="file" accept="image/*" name="photo" />
-          <input type="submit" value="upload" />
-        </form>
-        Search:
-        <input
-          onChange={(event) => {
-            setSearch(event.target.value);
-          }}
-        />
-        <div>
-          {(books || [])
-            .filter(
-              (book) =>
-                !search ||
-                book.ocr[0].description
-                  .toUpperCase()
-                  .includes(search.toUpperCase())
-            )
-            .map((book) => {
-              const { storage } = book;
-              return (
+    <div>
+      <form action="/api/upload" method="post" enctype="multipart/form-data">
+        <input type="file" accept="image/*" name="photo" />
+        <input type="submit" value="upload" />
+      </form>
+      Search:
+      <input
+        onChange={(event) => {
+          setSearch(event.target.value);
+        }}
+      />
+      <div>
+        {(books || [])
+          .filter(
+            (book) =>
+              !search ||
+              book.ocr[0].description
+                .toUpperCase()
+                .includes(search.toUpperCase())
+          )
+          .map((book) => {
+            const { storage } = book;
+            return (
+              <NavLink to={'book/' + book._id}>
                 <div key={book._id}>
                   <h3>{storage.name}</h3>
                   <img src={storage.mediaLink} height={100} />
@@ -48,15 +49,27 @@ function App() {
                     dangerouslySetInnerHTML={{
                       __html: book.ocr[0].description.replace(
                         new RegExp(`(${search})`, 'ig'),
-                        '<strong>$1</strong>'
+                        '<strong style="background: yellow">$1</strong>'
                       ),
                     }}
                   />
                 </div>
-              );
-            })}
-        </div>
-      </header>
+              </NavLink>
+            );
+          })}
+      </div>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <div className="App">
+      <header className="App-header">Ex-librix</header>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/book/:id" element={<Book />} />
+      </Routes>
     </div>
   );
 }
