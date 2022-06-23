@@ -3,6 +3,7 @@ const router = express.Router();
 const fileUpload = require("express-fileupload");
 const { readText } = require("../utils/readText");
 const { uploadFile } = require("../utils/upload");
+const findISBN = require("../utils/isbn");
 const { client } = require("../db/index");
 
 const getBooksCollection = () => {
@@ -22,12 +23,17 @@ router.post("/upload", async (req, res) => {
   await photo.mv(uploadPath);
   const storage = await uploadFile(uploadPath);
   const result = await readText(uploadPath);
-
+  const isbn = findISBN(result);
+  if (isbn.length) {
+    console.log(isbn);
+  }
   await getBooksCollection().insertOne({
     ocr: result,
+    isbn: isbn,
     ...storage,
   });
-  res.send(result);
+  //res.send(result);
+  res.redirect("back");
 });
 
 router.get("/books", async (req, res) => {
