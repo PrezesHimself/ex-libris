@@ -2,17 +2,17 @@
  * TODO(developer): Uncomment the following lines before running the sample.
  */
 // The ID of your GCS bucket
-const bucketName = 'ex-libris';
+const bucketName = "ex-libris2";
 
 // Imports the Google Cloud client library
-const { Storage } = require('@google-cloud/storage');
+const { Storage } = require("@google-cloud/storage");
 
 // Creates a client
 const storage = new Storage();
 
-const uploadFile = async (filePath) => {
+const uploadFile = async filePath => {
   const result = await storage.bucket(bucketName).upload(filePath, {
-    destination: filePath.split('/').at(-1),
+    destination: filePath.split("/").at(-1),
   });
 
   console.log(`${filePath} uploaded to ${bucketName}`);
