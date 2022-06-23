@@ -4,6 +4,7 @@ const fileUpload = require('express-fileupload');
 const { readText } = require('../utils/readText');
 const { uploadFile } = require('../utils/upload');
 const { client } = require('../db/index');
+const ObjectId = require('mongodb').ObjectId;
 
 const getBooksCollection = () => {
   return client.db('ex-libris').collection('books');
@@ -33,6 +34,13 @@ router.post('/upload', async (req, res) => {
 router.get('/books', async (req, res) => {
   const books = await getBooksCollection().find({}).toArray();
   res.send(books);
+});
+
+router.get('/book/:bookId', async (req, res) => {
+  const book = await getBooksCollection().findOne({
+    _id: new ObjectId(req.params.bookId),
+  });
+  res.send(book);
 });
 
 module.exports = router;

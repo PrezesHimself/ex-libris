@@ -6,9 +6,9 @@ const path = require('path');
 const port = process.env.PORT || 3001;
 require('./db/index');
 
-app.use(express.static(path.join(__dirname, 'webapp', 'public')));
+app.use(express.static(path.resolve('public')));
 app.get('/', (req, res) => {
-  res.sendFile('webapp/public/index.html', { root: __dirname });
+  res.sendFile(path.resolve('public/index.html'));
 });
 
 app.use('/api', api);
