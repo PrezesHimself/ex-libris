@@ -43,4 +43,15 @@ router.get('/book/:bookId', async (req, res) => {
   res.send(book);
 });
 
+router.patch('/book/:bookId', async (req, res) => {
+  const {body} = req;
+  var { _id, ...omitted } = body;
+  const book = await getBooksCollection().updateOne({
+    _id: new ObjectId(req.params.bookId)
+  }, {
+    $set: omitted
+  });
+  res.send(book);
+});
+
 module.exports = router;

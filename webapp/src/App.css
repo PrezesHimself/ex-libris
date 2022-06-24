@@ -1,3 +1,21 @@
 .App {
   text-align: center;
 }
+
+.book {
+  display: flex;
+}
+
+.book + .book {
+  margin-top: 10px;
+}
+
+.book__image {
+  margin-right: 10px;
+  height: auto;
+  max-width: 100px;
+}
+
+.book__description {
+  text-align: left;
+}

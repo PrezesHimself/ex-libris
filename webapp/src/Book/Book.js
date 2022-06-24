@@ -19,6 +19,15 @@ function Book() {
     fetchData();
   }, []);
 
+  const updateBookInput = key => event => {
+      setBook(
+          {
+              ...book,
+              [key]: event.target.value
+          }
+      );
+  }
+
   if (!book) return <div>loading</div>;
   const { storage, ocr } = book;
   return (
@@ -100,6 +109,28 @@ function Book() {
           </div>
         </div>
         <div>{ocr[0].description}</div>
+      </div>
+
+      <div>
+        <div>
+          title
+          <input onChange={updateBookInput('title')} type="text" value={book.title || storage.name}/>
+        </div>
+        <div>
+          author
+          <input onChange={updateBookInput('author')} type="text" value={book.author}/>
+        </div>
+        <div>
+          ISBN
+          <input onChange={updateBookInput('isbn')} type="text" value={book.isbn}/>
+        </div>
+        <div>
+          year
+          <input onChange={updateBookInput('year')} type="text" value={book.year}/>
+        </div>
+          <button onClick={async () => {
+              const result = await axios.patch('/api/book/' + id, book);
+          }}>update</button>
       </div>
     </div>
   );
