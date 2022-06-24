@@ -29,7 +29,7 @@ function Home() {
           setSearch(event.target.value);
         }}
       />
-      <div style={{padding: 10, margin: 'auto'}}>
+      <div style={{ padding: 10, margin: 'auto' }}>
         {(books || [])
           .filter(
             (book) =>
@@ -41,22 +41,26 @@ function Home() {
           .map((book) => {
             const { storage, title, author, isbn, year } = book;
             return (
-              <NavLink to={'book/' + book._id} className={'book'} key={book._id}>
-                    <img className={'book__image'} src={storage.mediaLink} />
-                    <div className={'book__description'}>
-                          <h3>title: {title || storage.name}</h3>
-                          <h3>author: {author}</h3>
-                          <h3>isbn: {isbn}</h3>
-                          <h3>year: {year}</h3>
-                          <div
-                            dangerouslySetInnerHTML={{
-                              __html: book.ocr[0].description.replace(
-                                new RegExp(`(${search})`, 'ig'),
-                                '<strong style="background: yellow">$1</strong>'
-                              ),
-                            }}
-                          />
-                    </div>
+              <NavLink
+                to={'book/' + book._id}
+                className={'book'}
+                key={book._id}
+              >
+                <img className={'book__image'} src={storage.mediaLink} />
+                <div className={'book__description'}>
+                  <h3>title: {title || storage.name}</h3>
+                  <h3>author: {author}</h3>
+                  <h3>isbn: {isbn}</h3>
+                  <h3>year: {year}</h3>
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: book.ocr[0].description.replace(
+                        new RegExp(`(${search})`, 'ig'),
+                        '<strong style="background: yellow">$1</strong>'
+                      ),
+                    }}
+                  />
+                </div>
               </NavLink>
             );
           })}
