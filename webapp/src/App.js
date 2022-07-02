@@ -1,11 +1,24 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Book from './Book/Book';
+import LogIn from './LogIn/LogIn';
+import SignUp from './SignUp/SignUp';
 import { NavLink } from 'react-router-dom';
 
-function Home() {
+function setUser(user) {
+  sessionStorage.setItem('user', JSON.stringify(user));
+  window.location.href = '/';
+}
+
+function getUser() {
+  const userString = sessionStorage.getItem('user');
+  const user = JSON.parse(userString);
+  return user;
+}
+
+function Home({ setUser }) {
   const [books, setBooks] = useState([]);
   const [error, setError] = useState(null);
   const [search, setSearch] = useState('');
@@ -52,13 +65,21 @@ function Home() {
         </form>
       </div>
       <div>
-        <form
-          action="api/auth/signout"
-          method="post"
-          enctype="multipart/form-data"
+        <button
+          type="login"
+          onClick={async () => {
+            await fetch('/api/auth/signout', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            });
+            setUser(null);
+          }}
         >
-          <button type="login"> logout </button>
-        </form>
+          logout
+        </button>
+
         <form action="/api/upload" method="post" enctype="multipart/form-data">
           <input type="file" accept="image/*" name="photo" />
           <input type="submit" value="upload" />
@@ -112,11 +133,25 @@ function Home() {
 }
 
 function App() {
+  const user = getUser();
+
+  if (!user?.loggedIn) {
+    return (
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<LogIn setUser={setUser} />} />
+          <Route path="/login" element={<LogIn setUser={setUser} />} />
+          <Route path="/signup" element={<SignUp />} />
+        </Routes>
+      </div>
+    );
+  }
+
   return (
     <div className="App">
       <header className="App-header">Ex-librix</header>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home setUser={setUser} />} />
         <Route path="/book/:id" element={<Book />} />
       </Routes>
     </div>
