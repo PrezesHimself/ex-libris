@@ -1,4 +1,7 @@
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const mongoose = require('mongoose');
+const { Role } = require('./models');
+mongoose.Promise = global.Promise;
+
 const uri =
   'mongodb+srv://' +
   process.env.DBUSER +
@@ -6,17 +9,39 @@ const uri =
   process.env.DBPASSWORD +
   '@cluster0.7x88n.mongodb.net/?retryWrites=true&w=majority';
 
-const client = new MongoClient(uri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  serverApi: ServerApiVersion.v1,
-});
+mongoose
+  .connect(uri)
+  .then(() => {
+    console.log('Successfully connect to MongoDB.');
+    initial();
+  })
+  .catch((err) => {
+    console.error('Connection error', err);
+    process.exit();
+  });
 
-client
-  .connect()
-  .then(() => console.log('connected to mongodb..'))
-  .catch((err) => console.error('could not connect to mongodb', err));
-
+function initial() {
+  Role.estimatedDocumentCount((err, count) => {
+    if (!err && count === 0) {
+      new Role({
+        name: 'user',
+      }).save((err) => {
+        if (err) {
+          console.log('error', err);
+        }
+        console.log("added 'user' to roles collection");
+      });
+      new Role({
+        name: 'admin',
+      }).save((err) => {
+        if (err) {
+          console.log('error', err);
+        }
+        console.log("added 'admin' to roles collection");
+      });
+    }
+  });
+}
 module.exports = {
-  client,
+  mongoose,
 };

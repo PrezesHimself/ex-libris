@@ -7,28 +7,70 @@ import { NavLink } from 'react-router-dom';
 
 function Home() {
   const [books, setBooks] = useState([]);
+  const [error, setError] = useState(null);
   const [search, setSearch] = useState('');
 
   useEffect(() => {
     async function fetchData() {
-      const result = await axios('/api/books');
-
-      setBooks(result.data);
+      try {
+        const result = await axios('/api/books');
+        setBooks(result.data);
+      } catch (err) {
+        setError('try log in ');
+      }
     }
     fetchData();
   }, []);
   return (
     <div>
-      <form action="/api/upload" method="post" enctype="multipart/form-data">
-        <input type="file" accept="image/*" name="photo" />
-        <input type="submit" value="upload" />
-      </form>
+      <div>
+        <form
+          action="api/auth/signin"
+          method="post"
+          enctype="multipart/form-data"
+        >
+          <label for="username">
+            <b>Username</b>
+          </label>
+          <input
+            type="text"
+            placeholder="Enter Username"
+            name="username"
+            required
+          ></input>
+
+          <label for="password">
+            <b>Password</b>
+          </label>
+          <input
+            type="password"
+            placeholder="Enter Password"
+            name="password"
+            required
+          ></input>
+          <button type="login"> login </button>
+        </form>
+      </div>
+      <div>
+        <form
+          action="api/auth/signout"
+          method="post"
+          enctype="multipart/form-data"
+        >
+          <button type="login"> logout </button>
+        </form>
+        <form action="/api/upload" method="post" enctype="multipart/form-data">
+          <input type="file" accept="image/*" name="photo" />
+          <input type="submit" value="upload" />
+        </form>
+      </div>
       Search:
       <input
         onChange={(event) => {
           setSearch(event.target.value);
         }}
       />
+      <div> {error && error}</div>
       <div style={{ padding: 10, margin: 'auto' }}>
         {(books || [])
           .filter(

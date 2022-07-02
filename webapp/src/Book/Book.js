@@ -9,6 +9,7 @@ const fontScale = scale * 0.7;
 function Book() {
   let { id } = useParams();
   const [book, setBook] = useState(null);
+  const [editing, setEditing] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -34,6 +35,7 @@ function Book() {
       <div key={book._id}>
         <h3>{storage.name}</h3>
         <div>
+          editing {editing}
           <div
             style={{
               height: 4000 * scale,
@@ -47,8 +49,18 @@ function Book() {
             }}
           >
             {ocr.slice(1).map((thisOcr) => {
+              book[editing] = book[editing] || '';
               return (
                 <div
+                  onClick={() => {
+                    if (!editing) {
+                      return;
+                    }
+                    setBook({
+                      ...book,
+                      [editing]: (book[editing] += ' ' + thisOcr.description),
+                    });
+                  }}
                   style={{
                     border: '3px solid rgba(255,255,255,.2)',
                     background: 'rgba(0,0,0,.7)',
@@ -116,6 +128,13 @@ function Book() {
             type="text"
             value={book.title || storage.name}
           />
+          <button
+            onClick={() => {
+              setEditing('title');
+            }}
+          >
+            add from image
+          </button>
         </div>
         <div>
           author
@@ -124,6 +143,13 @@ function Book() {
             type="text"
             value={book.author}
           />
+          <button
+            onClick={() => {
+              setEditing('author');
+            }}
+          >
+            add from image
+          </button>
         </div>
         <div>
           ISBN
