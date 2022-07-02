@@ -139,9 +139,9 @@ function App() {
     return (
       <div className="App">
         <Routes>
-          <Route path="/" element={<LogIn setUser={setUser} />} />
           <Route path="/login" element={<LogIn setUser={setUser} />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="*" element={<LogIn setUser={setUser} />} />
         </Routes>
       </div>
     );
