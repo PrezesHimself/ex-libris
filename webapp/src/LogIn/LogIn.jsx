@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './LogIn.css';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Link from '@mui/material/Link';
 
 async function loginUser(credentials) {
   return fetch('/api/auth/signin', {
@@ -24,8 +28,7 @@ function LogIn({ setUser }) {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async () => {
     const user = await loginUser({
       email,
       password,
@@ -38,38 +41,47 @@ function LogIn({ setUser }) {
     }
   };
   return (
-    <div className="login-wrapper">
+    <Box component="form" noValidate autoComplete="off">
       <h1>Please Log In</h1>
       <form onSubmit={handleSubmit}>
-        <label>
-          <p>Email</p>
-          <input type="email" onChange={(e) => setEmail(e.target.value)} />
-        </label>
-        <label>
-          <p>Password</p>
-          <input
-            type="password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </label>
-        <div>
-          <button type="submit">Submit</button>
-        </div>
-        <div>
-          <a
-            href="#"
-            onClick={(event) => {
-              event.preventDefault();
-              window.location.href = '/signup';
-            }}
-          >
-            sign up?
-          </a>
-        </div>
+        <TextField
+          id="standard-basic"
+          onChange={(e) => setEmail(e.target.value)}
+          label="Email"
+          variant="standard"
+        />
+        <br />
+        <TextField
+          id="standard-basic"
+          onChange={(e) => setPassword(e.target.value)}
+          label="Password"
+          variant="standard"
+        />
+        <br />
+        <br />
+        <Button
+          variant="contained"
+          onClick={() => {
+            handleSubmit();
+          }}
+        >
+          Login
+        </Button>
+        <br />
+        <br />
+        <Link
+          href="#"
+          onClick={(event) => {
+            event.preventDefault();
+            window.location.href = '/signup';
+          }}
+        >
+          sign up?
+        </Link>
 
         <h2> {result && result}</h2>
       </form>
-    </div>
+    </Box>
   );
 }
 
