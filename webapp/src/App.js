@@ -5,8 +5,8 @@ import { Routes, Route } from 'react-router-dom';
 import Book from './Book/Book';
 import LogIn from './LogIn/LogIn';
 import SignUp from './SignUp/SignUp';
+import Header from './Header/Header';
 import { NavLink } from 'react-router-dom';
-
 function setUser(user) {
   sessionStorage.setItem('user', JSON.stringify(user));
   window.location.href = '/';
@@ -138,6 +138,7 @@ function App() {
   if (!user?.loggedIn) {
     return (
       <div className="App">
+        <Header user={user} />
         <Routes>
           <Route path="/login" element={<LogIn setUser={setUser} />} />
           <Route path="/signup" element={<SignUp />} />
@@ -149,7 +150,7 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">Ex-librix</header>
+      <Header user={user} />
       <Routes>
         <Route path="/" element={<Home setUser={setUser} />} />
         <Route path="/book/:id" element={<Book />} />
