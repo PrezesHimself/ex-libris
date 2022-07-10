@@ -35,7 +35,11 @@ router.post('/upload', async (req, res) => {
 });
 
 router.get('/books/:libraryId', [authJwt.verifyToken], async (req, res) => {
-  const books = await getBooksCollection().find({}).toArray();
+  const books = await getBooksCollection()
+    .find({
+      library: ObjectId(req.params.libraryId),
+    })
+    .toArray();
   res.send(books);
 });
 
@@ -98,7 +102,10 @@ router.patch('/book/:bookId', async (req, res) => {
       _id: new ObjectId(req.params.bookId),
     },
     {
-      $set: omitted,
+      $set: {
+        ...omitted,
+        library: ObjectId(omitted.library),
+      },
     }
   );
   res.send(book);

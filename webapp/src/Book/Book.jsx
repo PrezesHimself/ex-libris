@@ -2,6 +2,11 @@ import React, { useState, useEffect } from 'react';
 import './Book.css';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 const scale = 0.1;
 const fontScale = scale * 0.7;
@@ -9,16 +14,26 @@ const fontScale = scale * 0.7;
 function Book() {
   let { id } = useParams();
   const [book, setBook] = useState(null);
+  const [userLibraries, setUserLibraries] = useState(null);
   const [editing, setEditing] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
       const result = await axios('/api/book/' + id);
+      const libraries = await axios('/api/libraries');
 
       setBook(result.data);
+      setUserLibraries(libraries.data);
     }
     fetchData();
   }, []);
+
+  const handleChange = (event) => {
+    setBook({
+      ...book,
+      library: event.target.value,
+    });
+  };
 
   const updateBookInput = (key) => (event) => {
     setBook({
@@ -28,7 +43,7 @@ function Book() {
   };
 
   if (!book) return <div>loading</div>;
-  const { storage, ocr } = book;
+  const { storage, ocr, library } = book;
   return (
     <div>
       book {id}
@@ -166,6 +181,26 @@ function Book() {
             type="text"
             value={book.year}
           />
+        </div>
+        <div>
+          <Box sx={{ minWidth: 120 }}>
+            <FormControl fullWidth>
+              <InputLabel id="library">Library</InputLabel>
+              <Select
+                labelId="library"
+                id="library"
+                value={library}
+                label="Library"
+                onChange={handleChange}
+              >
+                {(userLibraries || []).map((userLibrary) => (
+                  <MenuItem value={userLibrary._id}>
+                    {userLibrary.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Box>
         </div>
         <button
           onClick={async () => {
