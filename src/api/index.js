@@ -5,7 +5,7 @@ const { readText } = require('../utils/readText');
 const { uploadFile } = require('../utils/upload');
 const { mongoose } = require('../db/index');
 const ObjectId = require('mongodb').ObjectId;
-const { User, Role } = require('../db/models');
+const { User, Role, Library } = require('../db/models');
 const authRoutes = require('./auth.routes');
 const { authJwt } = require('../middleware/index');
 
@@ -34,7 +34,7 @@ router.post('/upload', async (req, res) => {
   res.send(result);
 });
 
-router.get('/books', [authJwt.verifyToken], async (req, res) => {
+router.get('/books/:libraryId', [authJwt.verifyToken], async (req, res) => {
   const books = await getBooksCollection().find({}).toArray();
   res.send(books);
 });
@@ -57,11 +57,42 @@ router.get('/roles', async (req, res) => {
   res.send(roles);
 });
 
+router.get('/libraries', async (req, res) => {
+  const library = await Library.find();
+  res.send(library);
+});
+
+router.get('/libraries/:libraryId', async (req, res) => {
+  const library = await Library.findOne({
+    _id: req.params.libraryId,
+  });
+  res.send(library);
+});
+
+router.post('/libraries/new', async (req, res) => {
+  const { body } = req;
+  await new Library(body).save();
+  res.send(body);
+});
+
+router.patch('/libraries/edit/:libraryId', async (req, res) => {
+  const { body } = req;
+  const { _id, ...omitted } = body;
+  const library = await Library.findOneAndUpdate(
+    {
+      _id: req.params.libraryId,
+    },
+    omitted
+  );
+
+  res.send({ ...library, ...omitted });
+});
+
 router.use('/auth', authRoutes);
 
 router.patch('/book/:bookId', async (req, res) => {
   const { body } = req;
-  var { _id, ...omitted } = body;
+  const { _id, ...omitted } = body;
   const book = await getBooksCollection().updateOne(
     {
       _id: new ObjectId(req.params.bookId),
