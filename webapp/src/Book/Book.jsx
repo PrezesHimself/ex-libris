@@ -5,8 +5,10 @@ import axios from 'axios';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
+import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
 
 const scale = 0.1;
 const fontScale = scale * 0.7;
@@ -43,10 +45,10 @@ function Book() {
   };
 
   if (!book) return <div>loading</div>;
-  const { storage, ocr, library } = book;
+  const { storage, ocr, library, isbn } = book;
   return (
     <div>
-      book {id}
+      book {id} {isbn}
       <div key={book._id}>
         <h3>{storage.name}</h3>
         <div>
@@ -168,11 +170,36 @@ function Book() {
         </div>
         <div>
           ISBN
-          <input
+          <TextField
             onChange={updateBookInput('isbn')}
             type="text"
-            value={book.isbn}
+            value={isbn}
           />
+          <Button
+            onClick={async () => {
+              try {
+                const results = await axios(
+                  'https://www.googleapis.com/books/v1/volumes?q=isbn:' +
+                    book.isbn
+                );
+                const {
+                  title,
+                  authors,
+                  publishedDate,
+                } = results.data.items[0].volumeInfo;
+                setBook({
+                  ...book,
+                  title,
+                  author: authors.join(''),
+                  year: publishedDate,
+                });
+              } catch (error) {
+                console.log(error);
+              }
+            }}
+          >
+            read ISBN
+          </Button>
         </div>
         <div>
           year
@@ -202,13 +229,13 @@ function Book() {
             </FormControl>
           </Box>
         </div>
-        <button
+        <Button
           onClick={async () => {
             const result = await axios.patch('/api/book/' + id, book);
           }}
         >
           update
-        </button>
+        </Button>
       </div>
     </div>
   );
