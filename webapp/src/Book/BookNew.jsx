@@ -9,7 +9,7 @@ import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
-import Camera from 'react-html5-camera-photo';
+import Camera, { FACING_MODES, IMAGE_TYPES } from 'react-html5-camera-photo';
 import 'react-html5-camera-photo/build/css/index.css';
 
 const scale = 0.1;
@@ -61,6 +61,7 @@ function NewBook() {
       <div> </div>
       {!coverPhoto ? (
         <Camera
+          idealFacingMode={FACING_MODES.ENVIRONMENT}
           onTakePhoto={(dataUri) => {
             handleTakePhoto(dataUri);
           }}
