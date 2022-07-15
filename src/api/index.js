@@ -20,18 +20,23 @@ router.use((req, res, next) => {
   next();
 });
 
-router.post('/upload', async (req, res) => {
-  const photo = req.files.photo;
-  const uploadPath = __dirname + '/upload/' + photo.name;
-  await photo.mv(uploadPath);
+router.post('/uploadPhoto', async (req, res) => {
+  const { body } = req;
+
+  binaryData = new Buffer(
+    body.dataUri.replace(/^data:image\/png;base64,/, ''),
+    'base64'
+  ).toString('binary');
+
+  const uploadPath = __dirname + '/upload/' + Date.now() + '.jpeg';
+  require('fs').writeFileSync(uploadPath, binaryData, 'binary');
   const storage = await uploadFile(uploadPath);
   const result = await readText(uploadPath);
 
-  await getBooksCollection().insertOne({
+  res.send({
     ocr: result,
     ...storage,
   });
-  res.send(result);
 });
 
 router.get('/books/:libraryId', [authJwt.verifyToken], async (req, res) => {
@@ -108,6 +113,15 @@ router.patch('/book/:bookId', async (req, res) => {
       },
     }
   );
+  res.send(book);
+});
+
+router.post('/book/new', async (req, res) => {
+  const { body } = req;
+  const book = await getBooksCollection().insertOne({
+    ...body,
+    library: ObjectId(body.library),
+  });
   res.send(book);
 });
 

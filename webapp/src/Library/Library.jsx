@@ -41,7 +41,7 @@ export default function Library() {
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={2}>
             {books.map((book) => {
-              const { name, _id, storage } = book;
+              const { name, _id, storage = {} } = book;
               return (
                 <Grid item xs={12} md={2}>
                   <Card sx={{ maxWidth: 345 }}>
@@ -70,7 +70,9 @@ export default function Library() {
         </Box>
       </div>
       <div>
-        <Button>Add book</Button>
+        <NavLink to={'/book/new/' + library._id} className={'new book'}>
+          <Button>Add book</Button>
+        </NavLink>
       </div>
     </>
   );

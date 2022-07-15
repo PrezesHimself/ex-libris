@@ -2,6 +2,7 @@ import './App.css';
 
 import { Routes, Route } from 'react-router-dom';
 import Book from './Book/Book';
+import NewBook from './Book/BookNew';
 import LogIn from './LogIn/LogIn';
 import SignUp from './SignUp/SignUp';
 import Header from './Header/Header';
@@ -54,6 +55,7 @@ function App() {
           />
           <Route path="/library/:id" element={<Library />} />
           <Route path="/book/edit/:id" element={<Book />} />
+          <Route path="/book/new/:libraryId" element={<NewBook />} />
         </Routes>
       </Container>
     </div>
